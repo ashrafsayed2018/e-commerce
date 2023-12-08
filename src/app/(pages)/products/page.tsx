@@ -18,7 +18,7 @@ async function  Products() {
             slug: 'products',
             draft: isDraftMode
         })
-        console.log(page)
+     
         categories = await fetchDocs<Category>("categories")
     } catch (error) {
         console.log(error.message)
@@ -26,7 +26,7 @@ async function  Products() {
   return (
     <div className={classes.container}>
         <Gutter className={classes.products}>
-            <Filters/>
+            <Filters categories={categories}/>
             <Blocks blocks={page.layout} disableTopPadding={true}/>
         </Gutter>
         <HR/>

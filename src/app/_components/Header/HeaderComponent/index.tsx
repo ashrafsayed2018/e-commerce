@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation"
 import { noHeaderFooterUrls } from "../../../constants"
 function HeaderComponent({header}:{header:Header}) {
   const pathname = usePathname();
-  console.log(pathname)
+ 
   return (
     <nav className={[classes.header,noHeaderFooterUrls.includes(pathname) && classes.hide].filter(Boolean).join(" ")}>
         <Gutter className={classes.wrap}>

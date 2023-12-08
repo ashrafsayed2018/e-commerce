@@ -1,8 +1,67 @@
-import React from 'react'
+"use client"
+import { Category } from "../../../../payload/payload-types"
+import { Checkbox } from "../../../_components/CheckBox"
+import { HR } from "../../../_components/HR"
+import { RadioButton } from "../../../_components/Radio"
+import { useFilters } from "../../../_providers/Filter"
+import classes from "./index.module.scss"
 
-function Filters() {
+function Filters({categories}:{categories:Category[]}) {
+  const {categoryFilters,setCategoryfilters,sort,setSort} = useFilters()
+
+  const handleCategries = (categoryId:string) => {
+
+    if(categoryFilters.includes(categoryId)) {
+      const updateCategories = categoryFilters.filter((id:string) => id !== categoryId)
+      setCategoryfilters(updateCategories)
+    } else {
+      setCategoryfilters(...categoryFilters,categoryId)
+    }
+
+  }
+
+  const handleSort = (value:string) => setSort(value)
+
+
   return (
-    <div>Filters</div>
+    <div className={classes.filters}>
+      <div>
+        <h6 className={classes.title}>Product Categories</h6>
+        <div className={classes.categories}>
+          {categories && categories.map((category,index) => {
+            const isSelected = categoryFilters.includes(category.id);
+            return (
+              <Checkbox 
+              key={category.id} 
+              label={category.title}
+              value={category.id} 
+              isSelected={isSelected}
+              onClickHandler={handleCategries}
+              
+              />
+            )
+          })}
+        </div>
+        <HR className={classes.hr}/>
+        <h6 className={classes.title}>Sort By</h6>
+        <div className={classes.categories}>
+           <RadioButton
+           label="Latest"
+           value="-createdAt"
+           isSelected={sort ==="-createdAt"}
+           onRadioChange={handleSort}
+           groupName="sort"
+           />
+           <RadioButton
+           label="Oldest"
+           value="createdAt"
+           isSelected={sort ==="createdAt"}
+           onRadioChange={handleSort}
+           groupName="sort"
+           />
+        </div>
+      </div>
+    </div>
   )
 }
 
